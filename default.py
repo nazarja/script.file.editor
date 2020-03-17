@@ -48,7 +48,7 @@ class FileEditor:
     #=====================#
 
     def createNewFile(self):
-        self.dir_path = dialog.browseSingle(0, 'Select Location', 'files', '', False, False, home_path)
+        self.dir_path = dialog.browse(0, 'Select Location', 'files', '', False, False, home_path)
         if self.dir_path != home_path:
             kb = xbmc.Keyboard('', 'Enter New File Name And Extension')
             kb.doModal()
@@ -102,7 +102,7 @@ class FileEditor:
     #=====================#
 
     def createNewDirectory(self):
-        self.dir_path = dialog.browseSingle(0, 'Select Location', 'files', '', False, False, home_path)
+        self.dir_path = dialog.browse(0, 'Select Location', 'files', '', False, False, home_path)
         if self.dir_path != home_path:
             kb = xbmc.Keyboard('', 'Enter New Directory Name')
             kb.doModal()
@@ -142,7 +142,7 @@ class FileEditor:
     #=====================#
 
     def editExistingFile(self):
-        self.file_path = dialog.browseSingle(1, 'Select File To Edit', 'files', '', False, False, home_path)
+        self.file_path = dialog.browse(1, 'Select File To Edit', 'files', '', False, False, home_path)
         if self.file_path != home_path and os.path.exists(self.file_path):
             try:
                 self.file_name = os.path.split(self.file_path)[-1]
