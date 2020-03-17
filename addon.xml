@@ -11,8 +11,8 @@
     <description lang="en_GB">Create new and edit existing files. Delete Files And Directorys.</description>
     <disclaimer lang="en_GB">This script can create and overwrite files on your system. Use with caution.</disclaimer>
     <platform>all</platform>
-    <license>GNU GENERAL PUBLIC LICENSE Version 2</license>
-    <source>https://github.com/nazarja/script.file.editor</source>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+    <source>https://github.com/nazarja/script.file.editor/</source>
     <assets>
         <icon>resources/images/icon.png</icon>
         <fanart>resources/images/fanart.jpg</fanart>
