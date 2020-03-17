@@ -43,7 +43,7 @@ class FileEditor:
             elif self.choice is 3: self.renameFile()
             elif self.choice is 4: self.renameDirectory()
             elif self.choice is 5: self.deleteFile()
-            elif self.choice is 6: self.deleteExistingDirectory()
+            elif self.choice is 6: self.deleteDirectory()
 
     #=====================#
 
@@ -286,7 +286,7 @@ class FileEditor:
 
     #=====================#
 
-    def deleteExistingDirectory(self):
+    def deleteDirectory(self):
         self.dir_path = dialog.browse(0, 'Select Directory To Delete', 'files', '', False, False, home_path)
         if self.dir_path != home_path and os.path.exists(self.dir_path):
             try:

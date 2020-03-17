@@ -25,6 +25,7 @@
 				<height>100</height>
 				<label></label>
 				<size>50</size>
+				<width max="350">auto</width>
 				<backgroundcolor>0xff121212</backgroundcolor>
 				<align>left</align>
 			</control>
