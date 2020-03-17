@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window">
+	<animation effect="fade" start="0,0" time="100">WindowOpen</animation>
+	<defaultcontrol always="false">50</defaultcontrol>
+	<backgroundcolor>0xff121212</backgroundcolor>
+	<coordinates>
+		<left>0</left>
+		<top>0</top>
+	</coordinates>
+	<controls>
+		<!-- Top Bar -->
+		<control type="group">
+			<control type="image">
+				<description>File Name</description>
+				<top>0</top>
+				<left>0</left>
+				<height>120</height>
+				<width>1905</width>
+				<texture>panel.png</texture>
+			</control>
+			<control type="label" id="8002">
+				<description>Panel Top Bar</description>
+				<top>40</top>
+				<left>100</left>
+				<height>100</height>
+				<label></label>
+				<size>50</size>
+				<backgroundcolor>0xff121212</backgroundcolor>
+				<align>left</align>
+			</control>
+			<!-- Top Bar Menu -->
+			<control type="group">
+				<top>35</top>
+				<left>0</left>
+				<control type="grouplist" id="9000">
+					<ondown>50</ondown>
+					<onleft>50</onleft>
+					<onright>10000</onright>
+					<width>1845</width>
+					<align>right</align>
+					<orientation>horizontal</orientation>
+					<itemgap>10</itemgap>
+					<control type="button" id="9001">
+						<width>auto</width>
+						<height>50</height>
+						<label>Edit Line</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+						<disabledcolor>FF999999</disabledcolor>
+						<disabled>true</disabled>
+					</control>
+					<control type="button" id="9002">
+						<width>auto</width>
+						<height>50</height>
+						<label>Add Line (0)</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9003">
+						<width>auto</width>
+						<height>50</height>
+						<label>Add Line (-)</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9004">
+						<width>auto</width>
+						<height>50</height>
+						<label>Add Line (+4)</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9005">
+						<width>auto</width>
+						<height>50</height>
+						<label>Add Line (-4)</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9006">
+						<width>auto</width>
+						<height>50</height>
+						<label>Copy Line</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9007">
+						<width>auto</width>
+						<height>50</height>
+						<label>Remove Line</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9008">
+						<width>auto</width>
+						<height>50</height>
+						<label>Save File</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+					<control type="button" id="9009">
+						<width>auto</width>
+						<height>50</height>
+						<label>Exit Editor</label>
+						<font>font12</font>
+						<align>center</align>
+						<textcolor>FFFFFFFF</textcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
+						<texturefocus colordiffuse="FF20BAF9">focus.png</texturefocus>
+						<texturenofocus colordiffuse="FF1E6A89">focus.png</texturenofocus>
+					</control>
+				</control>
+			</control>
+		</control>
+
+			<!-- List -->
+		<control type="group">	
+			<control type="list" id="50">
+				<pagecontrol>10000</pagecontrol>
+				<onright>10000</onright>
+				<onleft>9000</onleft>
+				<onup>9000</onup>
+				<ondown>50</ondown>
+				<left>45</left>
+				<top>150</top>
+				<height>910</height>
+				<width>1800</width>
+				<viewtype label="535">list</viewtype>
+				<itemlayout height="50" width="1750">
+					<control type="label">
+						<left>0</left>
+						<top>0</top>
+						<height>50</height>
+						<width>60</width>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label2]</label>
+						<textcolor>FF626262</textcolor>
+						<align>center</align>
+					</control>
+					<control type="label">
+						<left>90</left>
+						<top>0</top>
+						<height>50</height>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label]</label>
+						<wrapmultiline>true</wrapmultiline>
+					</control>
+				</itemlayout>
+				<focusedlayout height="50" width="1750">
+					<control type="image">
+						<left>0</left>
+						<top>0</top>
+						<width>1800</width>
+						<height>50</height>
+						<texture colordiffuse="FF222222">focus.png</texture>
+					</control>
+					<control type="label">
+						<left>0</left>
+						<top>0</top>
+						<height>50</height>
+						<width>60</width>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label2]</label>
+						<textcolor>blue</textcolor>
+						<align>center</align>
+					</control>
+					<control type="label">
+						<left>0</left>
+						<top>0</top>
+						<height>50</height>
+						<width>60</width>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label2]</label>
+						<textcolor>FF828282</textcolor>
+						<visible>!Control.HasFocus(50)</visible>
+						<align>center</align>
+					</control>
+					<control type="label">
+						<left>90</left>
+						<top>0</top>
+						<height>50</height>
+						<width max="1710">auto</width>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label]</label>
+						<wrapmultiline>true</wrapmultiline>
+						<textcolor>blue</textcolor>
+						<visible>Control.HasFocus(50)</visible>
+						<scroll>true</scroll>
+						<scrollspeed>100</scrollspeed>
+						<scrollsuffix></scrollsuffix>
+					</control>
+					<control type="label">
+						<left>90</left>
+						<top>0</top>
+						<height>50</height>
+						<width max="1710">auto</width>
+						<font>font13</font>
+						<label>$INFO[ListItem.Label]</label>
+						<textcolor>FF828282</textcolor>
+						<visible>!Control.HasFocus(50)</visible>
+					</control>
+				</focusedlayout>
+			</control>
+		</control>
+		
+		<!-- Scollbar -->
+		<control type="group">
+			<right>0</right>
+			<top>0</top>
+			<width>60</width>
+			<bottom>0</bottom>
+			<control type="scrollbar" id="10000">
+				<onup>9000</onup>
+				<onleft>50</onleft>
+				<onright>9000</onright>
+				<top>0</top>
+				<bottom>0</bottom>
+				<right>0</right>
+				<width>13</width>
+				<orientation>vertical</orientation>
+				<textureslidernib>osd_slider_nibnf.png</textureslidernib>
+				<textureslidernibfocus>osd_slider_nib.png</textureslidernibfocus>
+				<orientation>vertical</orientation>
+				<showonepage>true</showonepage>
+			</control>
+		</control>
+	</controls>
+</window>
