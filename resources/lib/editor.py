@@ -109,7 +109,6 @@ class Editor(xbmcgui.WindowXML):
                 
             self.control.addItems(list_items)
             xbmc.executebuiltin('SetFocus(50,{})'.format(item[2] + 1))
-
         except:
             self.doExit()
 
@@ -122,14 +121,13 @@ class Editor(xbmcgui.WindowXML):
             if c == ' ': spaces += 1
             else: break
 
-
-        if controlId == 9003: # keep indent 
+        if controlId == 9003: 
             spaces = ' ' * spaces
             return self.addLine(spaces)
-        elif controlId == 9004: # indent right
+        elif controlId == 9004: 
             spaces = ' ' * 4 + ' ' * spaces
             return self.addLine(spaces)
-        elif controlId == 9005: # indent left
+        elif controlId == 9005:
             if spaces - 4 < 0: return self.addLine(item, '')
             else: return self.addLine(' ' * (spaces - 4))
 
@@ -148,7 +146,6 @@ class Editor(xbmcgui.WindowXML):
                 
             self.control.addItems(list_items)
             xbmc.executebuiltin('SetFocus(50,{})'.format(item[2] + 1))
-
         except:
             self.doExit()
 
@@ -170,7 +167,6 @@ class Editor(xbmcgui.WindowXML):
 
             if len(self.file_lines) == 0:
                 return self.openNewFile()   
-
         except:
             self.doExit()
  
@@ -194,7 +190,6 @@ class Editor(xbmcgui.WindowXML):
             
                 self.writeFile()
                 os.unlink(self.backup_path)
-
         except:
             try:
                 if self.choice == 2:

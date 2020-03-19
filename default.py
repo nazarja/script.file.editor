@@ -19,7 +19,6 @@ icon_path = os.path.join(addon_path, 'resources', 'images', 'icon.png')
 
 #=====================#
 
-
 class FileEditor:
 
     def __init__(self, *args, **kwargs):
@@ -30,118 +29,118 @@ class FileEditor:
 
     def startScript(self):
         self.options = [
-            'Create New File', 'Create New Directory', 'Edit Existing File',
+            'Create File', 'Create Directory', 'Edit File',
+            'Copy File', 'Copy Directory',
             'Rename File', 'Rename Directory',
-            'Delete Existing File', 'Delete Existing Directory'
+            'Delete File', 'Delete Directory'
         ]
         self.choice = dialog.select('Choose Option', self.options)
 
         if self.choice is not -1:
-            if self.choice is 0: self.createNewFile()
-            elif self.choice is 1: self.createNewDirectory()
-            elif self.choice is 2: self.editExistingFile()
-            elif self.choice is 3: self.renameFile()
-            elif self.choice is 4: self.renameDirectory()
-            elif self.choice is 5: self.deleteFile()
-            elif self.choice is 6: self.deleteDirectory()
+            if self.choice is 0: self.createFile()
+            elif self.choice is 1: self.createDirectory()
+            elif self.choice is 2: self.editFile()
+            elif self.choice is 3: self.copyFile()
+            elif self.choice is 4: self.copyDirectory()
+            elif self.choice is 5: self.renameFile()
+            elif self.choice is 6: self.renameDirectory()
+            elif self.choice is 7: self.deleteFile()
+            elif self.choice is 8: self.deleteDirectory()
 
     #=====================#
 
-    def createNewFile(self):
-        self.dir_path = dialog.browse(0, 'Select Location', 'files', '', False, False, home_path)
-        if self.dir_path != home_path:
-            kb = xbmc.Keyboard('', 'Enter New File Name And Extension')
-            kb.doModal()
-            if kb.isConfirmed():
-                self.file_name = kb.getText()
-                try:
-                    # check valid chars
-                    for c in self.file_name:
-                        if not c.isalnum() and c not in '-._':
-                            dialog.ok(
-                                'Invalid File Name',
-                                'Valid Characters:  letters, numbers, hypen, underscore, period.\n' +
-                                'Valid Extensions:  .txt  .xml  .py  .js  .json'
-                            )
-                            self.doExit()
+    def createFile(self):
+        self.dir_path = dialog.browse(0, 'Select Location', '', 'files', False, False, home_path)
+        if self.dir_path == home_path:
+            if not self.rootOrCancel():
+                return
 
-                    # check file extension
-                    text = self.file_name.split('.')
-                    if len(text) < 2 or text[-1] not in ['txt', 'xml', 'py', 'js', 'json']:
+        kb = xbmc.Keyboard('', 'Enter New File Name And Extension')
+        kb.doModal()
+        if kb.isConfirmed():
+            self.file_name = kb.getText()
+            try:
+                for c in self.file_name:
+                    if not c.isalnum() and c not in '-._':
                         dialog.ok(
                             'Invalid File Name',
                             'Valid Characters:  letters, numbers, hypen, underscore, period.\n' +
                             'Valid Extensions:  .txt  .xml  .py  .js  .json'
                         )
                         self.doExit()
-                    
-                    # check file doesnt already exist
-                    if os.path.exists(os.path.join(self.dir_path, self.file_name)):
-                        dialog.ok(
-                            'Invalid File Name',
-                            'A File With That Name Already Exists.\n' +
-                            'Please Choose Another File Name.'
-                        )
-                        self.doExit()
-                    
-                    else:
-                        try:
-                            # open file for editing
-                            gui = Editor(
-                                'editor.xml', addon_path, 'default', '1080i', True,
-                                dir_path=self.dir_path, file_name=self.file_name, choice=self.choice
-                            )
-                            gui.doModal()
-                            del gui
-                        except:
-                            dialog.notification('File Editor', 'Unable To Create New File', icon_path, 3000)
-                            self.doExit()
-                except:
+
+                text = self.file_name.split('.')
+                if len(text) < 2 or text[-1] not in ['txt', 'xml', 'py', 'js', 'json']:
+                    dialog.ok(
+                        'Invalid File Name',
+                        'Valid Characters:  letters, numbers, hypen, underscore, period.\n' +
+                        'Valid Extensions:  .txt  .xml  .py  .js  .json'
+                    )
                     self.doExit()
+
+                if os.path.exists(os.path.join(self.dir_path, self.file_name)):
+                    dialog.ok(
+                        'Invalid File Name',
+                        'A File With That Name Already Exists.\n' +
+                        'Please Choose Another File Name.'
+                    )
+                    self.doExit()
+                else:
+                    try:
+                        gui = Editor(
+                            'editor.xml', addon_path, 'default', '1080i', True,
+                            dir_path=self.dir_path, file_name=self.file_name, choice=self.choice
+                        )
+                        gui.doModal()
+                        del gui
+                    except:
+                        dialog.notification('File Editor', 'Unable To Create New File.', icon_path, 3000)
+                        self.doExit()
+            except:
+                self.doExit()
 
     #=====================#
 
-    def createNewDirectory(self):
+    def createDirectory(self):
         self.dir_path = dialog.browse(0, 'Select Location', 'files', '', False, False, home_path)
-        if self.dir_path != home_path:
-            kb = xbmc.Keyboard('', 'Enter New Directory Name')
-            kb.doModal()
-            if kb.isConfirmed():
-                self.dir_name = kb.getText()
-                self.dir_path = os.path.join(self.dir_path, self.dir_name)
-                try:
-                    # check for valid chars
-                    for c in self.dir_name:
-                        if not c.isalnum() and c not in '-._':
-                            dialog.ok(
-                                'Invalid Directory Name',
-                                'Valid Characters:  letters, numbers, hypen, underscore, period.'
-                            )
-                            self.doExit()
+        if self.dir_path == home_path:
+            if not self.rootOrCancel():
+                return
 
-                    # check file doesnt already exist
-                    if os.path.exists(self.dir_path):
+        kb = xbmc.Keyboard('', 'Enter New Directory Name')
+        kb.doModal()
+        if kb.isConfirmed():
+            self.dir_name = kb.getText()
+            self.dir_path = os.path.join(self.dir_path, self.dir_name)
+            try:
+                for c in self.dir_name:
+                    if not c.isalnum() and c not in '-._':
                         dialog.ok(
                             'Invalid Directory Name',
-                            'A Directory With That Name Already Exists.\n' +
-                            'Please Choose Another Directory Name.'
+                            'Valid Characters:  letters, numbers, hypen, underscore, period.'
                         )
                         self.doExit()
-                    else:
-                        try:
-                            # make new directory
-                            os.makedirs(self.dir_path)
-                            dialog.notification(
-                                'File Editor', 'Directory Created Successfully', icon_path, 3000)
-                        except:
-                            dialog.notification('File Editor', 'Unable To Create New Directory', icon_path, 3000)
-                            self.doExit()
-                except:
+
+                if os.path.exists(self.dir_path):
+                    dialog.ok(
+                        'Invalid Directory Name',
+                        'A Directory With That Name Already Exists.\n' +
+                        'Please Choose Another Directory Name.'
+                    )
                     self.doExit()
+                else:
+                    try:
+                        os.makedirs(self.dir_path)
+                        dialog.notification('File Editor', 'Directory Created Successfully.', icon_path, 3000)
+                    except:
+                        dialog.notification('File Editor', 'Unable To Create New Directory.', icon_path, 3000)
+                        self.doExit()
+            except:
+                self.doExit()
 
     #=====================#
 
-    def editExistingFile(self):
+    def editFile(self):
         self.file_path = dialog.browse(1, 'Select File To Edit', 'files', '', False, False, home_path)
         if self.file_path != home_path and os.path.exists(self.file_path):
             try:
@@ -154,17 +153,108 @@ class FileEditor:
                     )
                     self.doExit()
                 else:
-                    # open file for editing
                     gui = Editor(
                         'editor.xml', addon_path, 'default', '1080i', True,
                         file_path=self.file_path, file_name=self.file_name, choice=self.choice
                     )
                     gui.doModal()
                     del gui
-
             except:
-                dialog.notification('File Editor', 'Unable To Open File', icon_path, 3000)
+                dialog.notification(
+                    'File Editor', 'Unable To Open File.', icon_path, 3000)
                 self.doExit()
+
+    #=====================#
+
+    def copyFile(self):
+        self.file_path = dialog.browse(1, 'Select File To Copy', 'files', '', False, False, home_path)
+        if self.file_path == home_path:
+             return
+
+        self.copy_dir_path = dialog.browse(0, 'Select Location To Insert File Copy', 'files', '', False, False, home_path)
+        if self.copy_dir_path == home_path:
+            if not self.rootOrCancel(): return
+
+        self.original_path, self.start_path, self.end_path = self.getDirPaths(self.copy_dir_path)
+        self.dir_path, self.file_name = os.path.split(self.file_path)
+
+        try:
+            self.copy_file_path = os.path.join(self.copy_dir_path, self.file_name)
+            if not os.path.exists(self.copy_file_path):
+                try:
+                    if dialog.yesno('Copy File', 'Copy File "{}" To Directory "{}".'.format(self.file_name, self.end_path)):
+                        shutil.copyfile(self.file_path, self.copy_file_path)
+                        dialog.notification('File Editor', 'Copy File Successful.', icon_path, 3000)
+                except:
+                    dialog.notification('File Editor', 'Unable To Copy File.', icon_path, 3000)
+                    self.doExit()
+            else:
+                self.copy_name = self.file_name.split('.')
+                self.copy_name.insert(-1, 'copy')
+                self.copy_name = '.'.join(self.copy_name)
+                self.copy_file_path = os.path.join(self.copy_dir_path, self.copy_name)
+                if not os.path.exists(self.copy_file_path):
+                    try:
+                        if dialog.yesno('Copy File', 'Copy File "{}" To Directory "{}".'.format(self.file_name, self.end_path)):
+                            shutil.copyfile(self.file_path, self.copy_file_path)
+                            dialog.notification('File Editor', 'Copy File Successful.', icon_path, 3000)
+                    except:
+                        dialog.notification('File Editor', 'Unable To Copy File.', icon_path, 3000)
+                        self.doExit()
+                else:
+                    dialog.ok('Copy File', 'A Copy Of This File Already Exists.')
+                    self.doExit()
+        except:
+            dialog.notification('File Editor', 'Unable To Copy File.', icon_path, 3000)
+            self.doExit()
+        
+    #=====================#
+
+    def copyTree(self, source, destination):
+        try:
+            for item in os.listdir(source):
+                src = os.path.join(source, item)
+                dest = os.path.join(destination, item)
+                if os.path.isdir(src):
+                    shutil.copytree(src, dest , False, None)
+                else:
+                    shutil.copy2(src, dest )
+        except:
+            dialog.notification('File Editor', 'Unable To Copy Directory.', icon_path, 3000)
+            self.doExit()
+    
+    #=====================#
+
+    def copyDirectory(self):
+        self.dir_path = dialog.browse(0, 'Select Directory To Copy', 'files', '', False, False, home_path)
+        
+        if self.dir_path != home_path:
+            self.dir_copy_path = dialog.browse(0, 'Select Directory To Copy To', 'files', '', False, False, home_path)
+            self.original_path1, self.start_path1, self.end_path1 = self.getDirPaths(self.dir_path)
+            self.original_path2, self.start_path2, self.end_path2 = self.getDirPaths(self.dir_copy_path)
+            self.temp_dir_path = os.path.join(self.dir_copy_path, self.end_path1)
+
+            if dialog.yesno('Copy Directory', 'Copy Directory "{}" to Directory "{}"?'.format(self.end_path1, self.end_path2)):
+                try:
+                    if not os.path.exists(self.temp_dir_path):
+                        os.makedirs(self.temp_dir_path)
+                        self.copyTree(self.dir_path, self.temp_dir_path)
+                        dialog.notification('File Editor', 'Copy Directory Successful.', icon_path, 3000)
+                    else:
+                        self.temp_dir_name = self.end_path1 + '_copy'
+                        self.temp_dir_path = os.path.join(self.dir_copy_path, self.temp_dir_name)
+
+                        if not os.path.exists(self.temp_dir_path):
+                            os.makedirs(self.temp_dir_path)
+                            self.copyTree(self.dir_path, self.temp_dir_path)
+                            dialog.notification('File Editor', 'Copy Directory Successful.', icon_path, 3000)
+                        else:
+                            dialog.ok('Copy Directory', 'A Copy Of This Directory Already Exists.')
+                            self.doExit()
+                except Exception as e:
+                    dialog.textviewer('', str(e))
+                    dialog.notification('File Editor', 'Unable To Copy Directory.', icon_path, 3000)
+                    self.doExit()
 
     #=====================#
 
@@ -177,8 +267,6 @@ class FileEditor:
                 kb.doModal()
                 if kb.isConfirmed():
                     self.temp_name = kb.getText()
-
-                    # check valid chars
                     for c in self.temp_name:
                         if not c.isalnum() and c not in '-._':
                             dialog.ok(
@@ -188,7 +276,6 @@ class FileEditor:
                             )
                             self.doExit()
 
-                    # check file extension
                     text = self.temp_name.split('.')
                     if len(text) < 2 or text[-1] not in ['txt', 'xml', 'py', 'js', 'json']:
                         dialog.ok(
@@ -197,8 +284,7 @@ class FileEditor:
                             'Valid Extensions:  .txt  .xml  .py  .js  .json'
                         )
                         self.doExit()
-                    
-                    # check file doesnt already exist and that we are renaming the correct file
+
                     if os.path.exists(os.path.join(self.temp_path, self.temp_name)):
                         dialog.ok(
                             'Invalid File Name',
@@ -206,18 +292,17 @@ class FileEditor:
                             'Please Choose Another File Name.'
                         )
                         self.doExit()
-
                     else:
                         try:
                             if dialog.yesno(
                                 'Rename This File?',
                                 'This Is A Permenant Action.\n' +
-                                'Rename File To "{}"'.format(self.temp_name)
+                                'Rename File To "{}".'.format(self.temp_name)
                             ):
                                 os.rename(self.file_path, os.path.join(self.temp_path, self.temp_name))
                                 dialog.notification('File Editor', 'File Renamed.', icon_path, 3000)
                         except:
-                            dialog.notification('File Editor', 'Unable To Rename File', icon_path, 3000)
+                            dialog.notification('File Editor', 'Unable To Rename File.', icon_path, 3000)
                             self.doExit()
             except:
                 self.doExit()
@@ -226,17 +311,13 @@ class FileEditor:
     
     def renameDirectory(self):
         self.dir_path = dialog.browse(0, 'Select Directory To Rename', 'files', '', False, False, home_path)
-        if self.dir_path != home_path and os.path.exists(self.dir_path):
+        if self.dir_path != home_path and os.path.isdir(self.dir_path):
             try:
-                # get paths
-                self.orig_path, self.start_path, self.end_path = self.getStartAndEndPath(self.dir_path)
-
+                self.original_path, self.start_path, self.end_path = self.getDirPaths(self.dir_path)
                 kb = xbmc.Keyboard('{}'.format(self.end_path), 'Enter The New Name For This Directory')
                 kb.doModal()
                 if kb.isConfirmed():
                     self.temp_name = kb.getText()
-
-                    # check for valid chars
                     for c in self.temp_name:
                         if not c.isalnum() and c not in '-._':
                             dialog.ok(
@@ -244,8 +325,7 @@ class FileEditor:
                                 'Valid Characters:  letters, numbers, hypen, underscore, period.'
                             )
                             self.doExit()
-                    
-                    # check file doesnt already exist
+
                     if os.path.exists(os.path.join(self.start_path, self.temp_name)):
                         dialog.ok(
                             'Invalid Directory Name',
@@ -254,63 +334,58 @@ class FileEditor:
                         )
                         self.doExit()
 
-                
                     if dialog.yesno(
                         'Rename This Directory?',
                         'This Is A Permenant Action.\n' +
-                        'Rename Directory To "{}"'.format(self.temp_name)
+                        'Rename Directory To "{}".'.format(self.temp_name)
                     ):
                         os.rename(self.dir_path, os.path.join(self.start_path, self.temp_name))
                         dialog.notification('File Editor', 'Directory Renamed.', icon_path, 3000)
-
-            except Exception, e:
-                dialog.textviewer('', str(e))
-                dialog.notification('File Editor', 'Unable To Rename Directory', icon_path, 3000)
+            except:
+                dialog.notification('File Editor', 'Unable To Rename Directory.', icon_path, 3000)
 
     #=====================#
 
     def deleteFile(self):
         self.file_path = dialog.browse(1, 'Select File To Delete', 'files', '', False, False, home_path)
-        if self.file_path != home_path and os.path.exists(self.file_path):
+        if self.file_path != home_path and os.path.isfile(self.file_path):
             try:
                 self.file_name = os.path.split(self.file_path)[-1]
                 if dialog.yesno(
                     'Delete This File?',
                     'This Is A Permenant Action.\n' +
-                    'Delete File "{}"'.format(self.file_name)
+                    'Delete File "{}".'.format(self.file_name)
                 ):
                     os.unlink(self.file_path)
                     dialog.notification('File Editor', 'File Deleted.', icon_path, 3000)
             except:
-                dialog.notification('File Editor', 'Unable To Delete File', icon_path, 3000)
+                dialog.notification('File Editor', 'Unable To Delete File.', icon_path, 3000)
 
     #=====================#
 
     def deleteDirectory(self):
         self.dir_path = dialog.browse(0, 'Select Directory To Delete', 'files', '', False, False, home_path)
-        if self.dir_path != home_path and os.path.exists(self.dir_path):
+        if self.dir_path != home_path and os.path.isdir(self.dir_path):
             try:
-                # get paths
-                self.orig_path, self.start_path, self.end_path = self.getStartAndEndPath(self.dir_path)
-
+                self.original_path, self.start_path, self.end_path = self.getDirPaths(self.dir_path)
                 if dialog.yesno(
                     'Delete This Directory And All Its Content?',
                     'This Is A Permenant Action.\n' +
-                    'Delete Directory "{}"'.format(self.end_path)
+                    'Delete Directory "{}".'.format(self.end_path)
                 ):
                     shutil.rmtree(self.dir_path)
-                    dialog.notification('File Editor', 'Directory Deleted', icon_path, 3000)
+                    dialog.notification('File Editor', 'Directory Deleted.', icon_path, 3000)
             except:
-                dialog.notification('File Editor', 'Unable To Delete Directory', icon_path, 3000)
+                dialog.notification('File Editor', 'Unable To Delete Directory.', icon_path, 3000)
 
     #=====================#
 
-    def getStartAndEndPath(self, orig_path):
+    def getDirPaths(self, original_path):
         start_path = None
         end_path = None
 
-        if '/' in orig_path:
-            split_path = orig_path.split('/')
+        if '/' in original_path:
+            split_path = original_path.split('/')
             if split_path[-1] != '':
                 start_path = '/'.join(split_path[:-1])
                 end_path = split_path[-1]
@@ -318,8 +393,8 @@ class FileEditor:
                 start_path = '/'.join(split_path[:-2])
                 end_path = split_path[-2]
 
-        elif '\\' in orig_path:
-            split_path = orig_path.split('\\')
+        elif '\\' in original_path:
+            split_path = original_path.split('\\')
             if split_path[-1] != '':
                 start_path = '\\'.join(split_path[:-1])
                 end_path = split_path[-1]
@@ -327,7 +402,13 @@ class FileEditor:
                 start_path = '\\'.join(split_path[:-2])
                 end_path = split_path[-2]
 
-        return orig_path, start_path, end_path
+        return original_path, start_path, end_path
+
+    #=====================#
+
+    def rootOrCancel(self):
+        option = dialog.select('Choose Option', ['Select The Root Directory', 'Cancel Operation'])
+        return True if option is 0 else False
 
     #=====================#
 

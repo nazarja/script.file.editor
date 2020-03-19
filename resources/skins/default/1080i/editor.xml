@@ -2,7 +2,7 @@
 <window type="window">
 	<animation effect="fade" start="0,0" time="100">WindowOpen</animation>
 	<defaultcontrol always="false">50</defaultcontrol>
-	<backgroundcolor>0xff121212</backgroundcolor>
+	<backgroundcolor>FFff121212</backgroundcolor>
 	<coordinates>
 		<left>0</left>
 		<top>0</top>
@@ -26,7 +26,6 @@
 				<label></label>
 				<size>50</size>
 				<width max="350">auto</width>
-				<backgroundcolor>0xff121212</backgroundcolor>
 				<align>left</align>
 			</control>
 			<!-- Top Bar Menu -->
@@ -79,7 +78,7 @@
 					<control type="button" id="9004">
 						<width>auto</width>
 						<height>50</height>
-						<label>Add Line (+4)</label>
+						<label>Add Line (+4R)</label>
 						<font>font12</font>
 						<align>center</align>
 						<textcolor>FFFFFFFF</textcolor>
@@ -90,7 +89,7 @@
 					<control type="button" id="9005">
 						<width>auto</width>
 						<height>50</height>
-						<label>Add Line (-4)</label>
+						<label>Add Line (-4L)</label>
 						<font>font12</font>
 						<align>center</align>
 						<textcolor>FFFFFFFF</textcolor>
@@ -145,8 +144,7 @@
 				</control>
 			</control>
 		</control>
-
-			<!-- List -->
+		<!-- List -->
 		<control type="group">	
 			<control type="list" id="50">
 				<pagecontrol>10000</pagecontrol>
@@ -235,7 +233,6 @@
 				</focusedlayout>
 			</control>
 		</control>
-		
 		<!-- Scollbar -->
 		<control type="group">
 			<right>0</right>
